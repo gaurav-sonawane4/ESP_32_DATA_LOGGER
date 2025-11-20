@@ -39,3 +39,31 @@ They will give random values or NULL when WiFi is active.
 
 ### 1️⃣ Install Required Library
 Open Arduino Library Manager and install:
+---
+
+## Firebase Setup Guide
+Follow this step-by-step guide to configure Firebase:  
+https://drive.google.com/drive/folders/1U-ZA3UbW6PT3HV0Oiw-G-y4_pr3pjvhW?usp=sharing
+
+---
+
+## Data Upload Format
+
+Example Firebase upload:
+
+
+Format:
+
+Each batch contains **2000 samples**.
+
+---
+
+## Notes
+- Timer interrupt uses **IRAM_ATTR** for stable 200Hz sampling  
+- Do **NOT** use `Serial.print()` inside the timer interrupt  
+- ESP32 logs 10 seconds per batch and uploads multiple batches sequentially  
+
+---
+
+## License
+MIT License
