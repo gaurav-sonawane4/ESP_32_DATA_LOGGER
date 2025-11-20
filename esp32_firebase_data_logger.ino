@@ -3,6 +3,8 @@
   Written by: gaurav sonawane 
   Created on: Nov 20, 2025
   ESP32 High Speed Data Logger (200Hz Sample Rate)
+  For firebase setup refare this: https://drive.google.com/drive/folders/1U-ZA3UbW6PT3HV0Oiw-G-y4_pr3pjvhW?usp=sharing
+  Github Resporetory: https://github.com/gaurav-sonawane4/ESP_32_DATA_LOGGER
 */
 
 #include <Arduino.h>
@@ -35,7 +37,6 @@
 // 10 seconds / 0.005s = 2000 samples.
 const int MAX_SAMPLES = (BATCH_SEC * 1000) / (INTERVAL_US / 1000);
 
-// Data structure for a single sample row
 // Uses ~8 bytes per sample. 2000 samples = ~16KB RAM.
 struct Row {
   uint32_t t;     // Timestamp (ms from start of batch)
@@ -44,12 +45,9 @@ struct Row {
 };
 
 // The main data buffer.
-// 'static' keeps it off the stack to prevent stack overflow.
 static Row buf[MAX_SAMPLES];
 
 // ISR Control Variables
-// 'volatile' is required because these are modified inside an interrupt
-// and read by the main loop. It prevents the compiler from caching them.
 volatile int idx = 0;
 volatile bool capturing = false;
 volatile bool readyToSend = false;
