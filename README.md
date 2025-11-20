@@ -1,50 +1,35 @@
-# ESP_32_DATA_LOGGER
-ESP32 Data Logger (200Hz)
+# ESP32 Data Logger (200Hz)
 
-A simple logger that reads two sensors every 5ms (200Hz) using hardware timers. It saves 10 seconds of data to RAM and then uploads it to Firebase as a CSV string.
+A high-speed data logger that samples **two analog sensors every 5ms (200Hz)** using an ESP32 hardware timer.  
+It stores **10 seconds of data in RAM** and then uploads it to **Firebase Realtime Database** as a **compressed CSV string**.
 
-How it works
+---
 
-Samples 2 analog channels using adc1_get_raw (fast & interrupt-safe).
+## 🚀 Features
+- Samples **2 analog channels** using `adc1_get_raw` (fast & interrupt-safe)
+- Buffers **2000 samples** in memory per batch
+- Uploads batches to Firebase at:  
+  `/sensor_data/batch_X`
+- Automatically records **5 batches** (total 50 seconds of data)
 
-Buffers 2000 data points in memory.
+---
 
-Uploads the batch to Firebase at /sensor_data/batch_X.
+## 🛠 Hardware Setup
+- **ESP32 Development Board**
+- **Sensors on ADC1 pins only**  
+  ADC1 pins available: **GPIO 32–39**
 
-Repeats for 5 batches.
+Default pins:
+- Sensor 1 → **GPIO 36**
+- Sensor 2 → **GPIO 37**
 
-Hardware Setup
+❗ **Do NOT use ADC2 pins** (GPIO 0, 2, 4, 12–15, 25–27) –  
+WiFi uses ADC2 internally, so readings will fail.
 
-ESP32 Board
+---
 
-Sensors: Must use ADC1 pins (GPIO 32-39).
+## ⚙️ Setup Instructions
 
-Default: GPIO 36 and 37.
+### 1. Install Required Library
+Search for:
 
-Do not use ADC2 pins (like GPIO 4, 2, 15) or they will fail when WiFi is on.
-
-Setup Instructions
-
-Install Library:
-Search for Firebase Arduino Client Library for ESP8266 and ESP32 in the library manager.
-
-Config:
-Edit Humanized_Data_Logger.ino with your WiFi and Firebase details.
-
-Need Firebase Help?
-Check this setup guide
-
-Run:
-Flash the code. Open Serial Monitor (115200 baud) to see progress.
-
-Output Format
-
-The data is saved as a space-separated string to save DB write ops:
-0,1200,300 5,1205,310 10,1210,320 ...
-(Format: TimeMS, Sensor1, Sensor2)
-
-Notes
-
-The code uses IRAM_ATTR for the timer interrupt to keep it stable.
-
-Don't add Serial.print inside the onTimer function or it will crash.
