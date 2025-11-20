@@ -1,35 +1,41 @@
-# ESP32 Data Logger (200Hz)
+# ESP32 High-Speed Data Logger (200Hz)
 
-A high-speed data logger that samples **two analog sensors every 5ms (200Hz)** using an ESP32 hardware timer.  
-It stores **10 seconds of data in RAM** and then uploads it to **Firebase Realtime Database** as a **compressed CSV string**.
+This project logs **two analog sensors at 200Hz (every 5ms)** using an ESP32 hardware timer.  
+The data is stored in RAM for **10 seconds**, packed as a compressed CSV string, and uploaded to **Firebase Realtime Database** in batches.
 
 ---
 
 ## 🚀 Features
-- Samples **2 analog channels** using `adc1_get_raw` (fast & interrupt-safe)
-- Buffers **2000 samples** in memory per batch
-- Uploads batches to Firebase at:  
+- 200Hz sampling using ESP32 hardware timer
+- Reads 2 analog channels using `adc1_get_raw` (fast & WiFi-safe)
+- Buffers **2000 samples per batch** (10 seconds)
+- Uploads to Firebase under:  
   `/sensor_data/batch_X`
-- Automatically records **5 batches** (total 50 seconds of data)
+- Collects **5 continuous batches** (50 seconds of data)
+- Lightweight CSV format reduces Firebase write operations
 
 ---
 
 ## 🛠 Hardware Setup
-- **ESP32 Development Board**
-- **Sensors on ADC1 pins only**  
-  ADC1 pins available: **GPIO 32–39**
 
-Default pins:
+### ESP32 Board  
+Any ESP32 DevKit or equivalent.
+
+### Sensor Pins (Very Important)
+Use **ADC1 pins only**, because **ADC2 fails when WiFi is ON**.
+
+Valid ADC1 pins: **GPIO 32 – 39**
+
+Default configuration:
 - Sensor 1 → **GPIO 36**
 - Sensor 2 → **GPIO 37**
 
-❗ **Do NOT use ADC2 pins** (GPIO 0, 2, 4, 12–15, 25–27) –  
-WiFi uses ADC2 internally, so readings will fail.
+❗ **Do NOT use ADC2 pins (0, 2, 4, 12–15, 25–27)**  
+They will give random values or NULL when WiFi is active.
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ Getting Started
 
-### 1. Install Required Library
-Search for:
-
+### 1️⃣ Install Required Library
+Open Arduino Library Manager and install:
