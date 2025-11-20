@@ -17,8 +17,8 @@
 // --- User Configuration ---
 #define WIFI_SSID     "gaurav88"
 #define WIFI_PASS     "gaurav88"
-#define API_KEY       "AIzaSyDfj-d0AEnjd6I2lPBFSj8wNheK2SgYkts"
-#define DB_URL        "https://esp-data-logger-f6699-default-rtdb.asia-southeast1.firebasedatabase.app/"
+#define API_KEY "YOUR_FIREBASE_API_KEY"
+#define DATABASE_URL "YOUR_FIREBASE_DATABASE_URL" 
 
 // ADC Pin Definitions
 #define CH_TEMP       ADC1_CHANNEL_0 
@@ -223,3 +223,4 @@ void loop() {
   }
   delay(10);
 }
+
